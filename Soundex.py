@@ -1,33 +1,37 @@
-def get_soundex_code(c):
-    c = c.upper()
-    mapping = {
-        'B': '1', 'F': '1', 'P': '1', 'V': '1',
-        'C': '2', 'G': '2', 'J': '2', 'K': '2', 'Q': '2', 'S': '2', 'X': '2', 'Z': '2',
-        'D': '3', 'T': '3',
-        'L': '4',
-        'M': '5', 'N': '5',
-        'R': '6'
-    }
-    return mapping.get(c, '0')  # Default to '0' for non-mapped characters
-
-
 def generate_soundex(name):
     if not name:
         return ""
 
-    # Start with the first letter (capitalized)
-    soundex = [name[0].upper()]
-    prev_code = get_soundex_code(soundex[0])
+    soundex_mapping = {
+        'b': '1', 'f': '1', 'p': '1', 'v': '1',
+        'c': '2', 'g': '2', 'j': '2', 'k': '2', 'q': '2', 's': '2', 'x': '2', 'z': '2',
+        'd': '3', 't': '3',
+        'l': '4',
+        'm': '5', 'n': '5',
+        'r': '6'
+    }
 
-    for char in name[1:]:
-        code = get_soundex_code(char)
-        if code != '0' and code != prev_code:
-            soundex.append(code)
-            prev_code = code
-        if len(soundex) == 4:
+    first_letter = name[0].upper()
+    soundex = first_letter
+
+    count = 0
+    last_digit = ''
+
+    for char in name[1:].lower():
+        if char in "aeiouyhw":
+            continue
+
+        digit = soundex_mapping.get(char, '')
+
+        if digit == last_digit:
+            continue
+
+        if digit:
+            soundex += digit
+            last_digit = digit
+            count += 1
+
+        if count == 3:
             break
 
-    # Pad with zeros if necessary
-    soundex.extend(['0'] * (4 - len(soundex)))
-
-    return ''.join(soundex)
+    return soundex.ljust(4, '0')

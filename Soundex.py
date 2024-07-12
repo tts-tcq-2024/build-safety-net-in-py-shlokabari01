@@ -19,6 +19,7 @@ def generate_soundex(name):
 
     for char in name[1:].lower():
         if char in "aeiouyhw":
+            last_digit = ''
             continue
 
         digit = soundex_mapping.get(char, '')

@@ -1,5 +1,4 @@
 import unittest
-from Soundex import generate_soundex, encode_name
 
 class TestSoundex(unittest.TestCase):
 
@@ -10,7 +9,7 @@ class TestSoundex(unittest.TestCase):
         self.assertEqual(generate_soundex("A"), "A000")
 
     def test_encode_name(self):
-        self.assertEqual(encode_name("Aeiou", "A", 0), "A000")
+        self.assertEqual(generate_soundex("Aeiou"), "A000")
 
     def test_long_string(self):
         self.assertEqual(generate_soundex("Jackandsmith"), "J532")
